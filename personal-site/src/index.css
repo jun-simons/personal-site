@@ -60,6 +60,35 @@ body {
     format('opentype');
 }
 
+@font-face {
+  font-family: 'PPAcma-light';
+  src: local('PPAcma-light'), url("./fonts/PPAcma-Light.otf")
+    format('opentype');
+}
+
+@font-face {
+  font-family: 'MADE-Gentile';
+  src: local('MADE-Gentile'), url("./fonts/MADE-Gentle.otf")
+    format('opentype');
+}
+
+@font-face {
+  font-family: 'Roslindale';
+  src: local('Roslindale'), url("./fonts/RoslindaleText-Regular.otf")
+    format('opentype');
+}
+@font-face{
+  font-family: 'RoslindaleItalic';
+  src: local('RoslindaleItalic'), url("./fonts/RoslindaleText-Italic.otf")
+    format('opentype');
+}
+@font-face {
+  font-family: RoslindaleBold;
+  src: local('RoslindaleBold'), url("./fonts/RoslindaleText-Bold.otf")
+    format('opentype');
+}
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
