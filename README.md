@@ -1,3 +1,3 @@
-My Personal Website - 2.0 Version
+## My Personal Website - 2.0 Version
 
-Build in React with Tailwind
+Built in React with Tailwind
