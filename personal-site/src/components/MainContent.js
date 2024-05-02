@@ -3,42 +3,64 @@ import React, { useEffect } from 'react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger'; 
 import Scrollbar from 'smooth-scrollbar';
+import CircleType from 'circletype';
+
+import { ReactComponent as Blob1 } from "../assets/blobanimation.svg";
+import { ReactComponent as Blob2 } from "../assets/blobanimation2.svg";
+import { ReactComponent as Blob3 } from "../assets/blobanimation3.svg";
+import { ReactComponent as Blob4 } from "../assets/blobanimation4.svg";
+
+
 
 const MainContent = () => {
   useEffect(() => {
+    // GSAP Timeline loader
 
     const t1 = gsap.timeline();
-    t1.from(".first-load",  {
-        opacity: 0,
-        duration: 1.4,
-        y: -30,
-        ease: "power4.out",
-        delay: .5,
-        stagger: {
-            amount: 0.1
-        }
-    })
 
-    t1.from(".second-load", {
+    t1.from(".loader", {
         y: 100,
         duration: 1.4,
         ease: "power4.out",
         delay: 1.4,
         opacity: 0
     },
-    "-=1.4")
+    "-=1")
 
-    t1.to(".card", {
-        minWidth: 100,
-        minHeight: 100,
-        duration: 1.4,
-        ease: "power4.out",
-        delay: 1.4
-    },
-    "-=.8")
+    t1.from(".loader2", {
+        opacity:0,
+        duration: 2,
+     }, 
+     "-=.8")
+
+
+    // gsap.to('.title-out', {
+    //     x: '-100%', // Move the element to the left of the screen
+    //     opacity: 0, // Optionally fade out the element
+    //     ease: 'power2.inOut', // Use a specific easing function
+    //     scrollTrigger: {
+    //         trigger: '.title-out', // Trigger on the landing section
+    //         start: 'bottom center', // Start when the top of the landing section is 80% in view
+    //         // end: 'bottom 20%', // End when the bottom of the landing section is 20% in view
+    //         scrub: 0.5, // Adjust the scrub value to lock the scroll animation to the scroll bar
+    //         markers: true
+    //     },
+    // });
+
+    // Circular Text scroll cue
+    const text = document.getElementById('rotated')
+    const rotate = new CircleType(text).radius(70);
+
+    window.addEventListener('scroll', function(){
+        text.style.transform = 'rotate(' + (window.scrollY * 0.15) + 'deg)'
+      })
+
+
+    //GSAP ScrollTrigger and Smooth Scrollbar
 
     gsap.registerPlugin(ScrollTrigger);
     
+    // smooth scroll effect
     const scrollBar = Scrollbar.init(document.querySelector('.main'), {
         damping: 0.06,
         delegateTo: document,
@@ -59,7 +81,79 @@ const MainContent = () => {
 
     scrollBar.addListener(ScrollTrigger.update);
 
-    //loop sections
+    // functions to adjust background color/text color
+    function update_bg_forward(section) {
+        gsap.to(
+            '.main', {
+                backgroundColor: section.dataset.bgcolor, 
+                color: section.dataset.textcolor, 
+                overwrite: 'auto',
+            });
+        const loadElements = section.querySelectorAll('.load');
+        const header_loadElements = section.querySelectorAll('.hload');
+
+        // Use GSAP to animate each load element
+        gsap.fromTo(
+            loadElements,
+            { opacity: 0, y: 50 }, // Starting state
+            {
+                opacity: 1, // Ending state
+                y: 0,
+                duration: 0.7,
+                stagger: 0.4,
+            }
+        );
+
+        gsap.fromTo(
+            header_loadElements,
+            { opacity: 0, y: 50 }, // Starting state
+            {
+                opacity: 1, // Ending state
+                y: 0,
+                duration: 0.5,
+                stagger: 0.2,
+                delay: 0.5,
+            }
+        );
+
+        const leaveElements = section.querySelectorAll('.leave');
+        gsap.to(leaveElements, {
+            opacity: 0,
+            duration: 1,
+        });
+    }
+
+    function update_bg_backward(section, prevBackgroundColor, prevTextColor) {
+        gsap.to('.main', {
+            backgroundColor: prevBackgroundColor,
+            color: prevTextColor,
+            overwrite: 'auto',
+        });
+        const loadElements = section.querySelectorAll('.load');
+        const header_loadElements = section.querySelectorAll('.hload');
+        gsap.to(loadElements,
+            {
+                opacity: 0,
+                duration: 1,
+            })
+        gsap.to(header_loadElements,
+            {
+                opacity: 0,
+                duration: 1,
+            })
+    }
+
+    function on_leave(section) {
+        const leaveElements = section.querySelectorAll('.leave');
+        gsap.to(leaveElements,
+            {
+                opacity: 0,
+                duration: 1,
+            })
+    }
+
+
+    //control sequence for section color changes
     const sectionColor = document.querySelectorAll('[data-bgcolor]');
     sectionColor.forEach((section, i) => {
         //if index 0, do nothing, else store color value for previous
@@ -71,18 +165,11 @@ const MainContent = () => {
             scroller: '.main',
             start: 'top 50%',
             onEnter: () => 
-                gsap.to(
-                    '.main', {
-                        backgroundColor: section.dataset.bgcolor, 
-                        color: section.dataset.textcolor, 
-                        overwrite: 'auto',
-                    }),
+                update_bg_forward(section),
+            onLeave: ()=> 
+                on_leave(section),
             onLeaveBack: () => 
-                gsap.to('.main', {
-                    backgroundColor: prevBackgroundColor,
-                    color: prevTextColor,
-                    overwrite: 'auto',
-                }),
+                update_bg_backward(section, prevBackgroundColor, prevTextColor),
             });
 
         });
@@ -92,50 +179,79 @@ const MainContent = () => {
 
   return (
     <body class="min-h-screen bg-[#1f1f1f]">
-        <div className="main h-screen w-full overflow-auto">
-            <section className="min-h-screen w-screen relative flex flex-col items-center justify-center font-display px-64"
-            data-bgcolor="#ebe1d8"
+        
+        <div className="main h-screen w-full overflow-auto bg-grain">
+            {/* Landing Section: */}
+            <section className="landing min-h-screen w-screen relative flex flex-col items-center font-alt-display "
+            data-bgcolor="#C9C3BD"
             data-textcolor="#000000">
-                {/* <div className="card bg-[#b5ada5] flex flex-col items-center justify-center min-w-[600px] min-h-[500px]"> */}
-                    <h1 className="first-load  text-6xl">Hello, my name is:</h1>
-                    <div className="reveal overflow-hidden">
-                        <h1 className="second-load text-8xl mt-7">Jun Simons</h1>
+                <div className = "grain absolute w-full h-full z-40 bg-grain"></div>
+                <h1 className="loader title-out text-[11rem] mt-64 z-30">JUN SIMONS</h1>
+                <div className="blur-landing w-full h-full z-10 bg-[#f7f3ed] absolute">
+                    <div className="blobs absolute z-10 min-w-full flex flex-col">
+                        
+                        <Blob3 style={{position: 'absolute', width: '700px', height: '700px', alignSelf:'center', marginLeft: '-600px'}}/>
+                        
+                        <Blob4 style={{position: 'absolute', width: '700px', height: '700px', alignSelf:'center', marginLeft: '600px'}}/>
+                        
+                        <Blob2 style={{position: 'absolute', width: '500px', height: '600px', alignSelf:'center', marginLeft: '-200px', marginTop: '200px'}}/>
+                        
+                        <Blob1 style={{position: 'absolute', width: '700px', height: '700px',alignSelf:'center', marginLeft: '500px' }}/>
                     </div>
-                    <hr className="first-load w-[480px] h-[3px] mt-1 bg-black border-0"></hr>
-                {/* </div> */}
+                </div>
+                <div class="loader2 wheel animate-spin-slow circular-text absolute z-20 mr-[84%] mt-[40%]">
+                    <span className = "animate-spin" id="rotated">
+                        scroll • scroll • scroll • scroll • scroll • scroll • 
+                    </span>
+                </div>
             </section>
-            <section className="min-h-screen w-screen relative flex flex-col items-center  px-32"
-            data-bgcolor="#1f1f1f"
-            data-textcolor="#ebe8e6">
+
+            {/* About Me Section: */}
+            <section className="min-h-screen w-screen relative flex flex-col items-center"
+            data-bgcolor="#C9C3BD"  
+            data-textcolor="#121111">
                 <div className="w-3/5">
-                    <h2 className="font-display-lite text-4xl text-left leading-12">
+                    <h2 className="load opacity-0 mt-32 font-display-lite text-4xl text-left leading-12">
                         I'm a sophomore at Rensselaer Polytechnic Institute studying Computer Science, 
                         where I'm <b>focusing on my fundamentals</b>
                     </h2>
-                    <h2 className="mt-10 font-display-lite text-4xl text-left leading-12">
+                    <h2 className="load opacity-0 mt-10 font-display-lite text-4xl text-left leading-12">
+                        <b>Top Skills:</b> Python, C++, AWS, Docker, Kubernetes, Git, React
+                    </h2>
+                    <h2 className="load opacity-0 mt-16 font-display-lite text-4xl text-left leading-12">
                         At <b>Johnson and Johnson</b> I built containerized web apps, optimized HPC clusters, reduced AWS spending,
                         and implemented auto-QC for digital pathology images.
                     </h2>
-                    <h2 className="mt-10 font-display-lite text-4xl text-left leading-12">
-                        <b>Top Skills:</b> Python, React, C++, AWS, Docker, Kubernetes, Git
+                    <h2 className="load opacity-0 mt-10 font-display-lite text-4xl text-left leading-12">
+                        I also like playing with hardware, and using engineering to make art!
+                    </h2>
+                    <h2 className="load leave opacity-0 mt-10 font-display text-4xl text-left leading-12">
+                        Scroll to view projects
                     </h2>
                 </div>
-                
-                {/* Your About Me content goes here */}
             </section>
 
-            <section className="min-h-screen w-screen relative flex  justify-center px-32"
-            data-bgcolor="#ebe1d8"
-            data-textcolor="#000000">
-                <h2 className="font-display text-6xl">Projects</h2>
-                {/* Your Projects content goes here */}
+            {/* Projects Section: */}
+            <section className="mt-20 min-h-screen w-screen relative flex flex-col justify-left px-32"
+            data-bgcolor="#141414"
+            data-textcolor="#ebe8e6">
+                <h2 className="hload opacity-0 font-display text-8xl ">Projects</h2>
+                <h2 className="hload opacity-0 mt-32 font-display-lite text-4xl text-left leading-12">
+                [ Coming soon :&#41; ]
+                </h2>
             </section>
-            <section className="min-h-screen w-screen relative flex items-center justify-center px-32"
+            
+            {/* Contact Section: */}
+            <section className="min-h-screen w-screen relative flex items-center justify-center px-32 mt-0"
             data-bgcolor="#070707"
             data-textcolor="#ffffff">
-                <h1 className="text-2xl font-bold">Jun Simons</h1>
+                <h2 className="hload opacity-0 font-display text-8xl ">Contact me</h2>
+                <h2 className="hload opacity-0 mt-32 font-display-lite text-4xl text-left leading-12">
+                Instagram
+                </h2>
             </section>
         </div>
+        
     </body>
   );
 };

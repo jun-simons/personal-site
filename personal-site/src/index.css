@@ -83,10 +83,16 @@ body {
     format('opentype');
 }
 @font-face {
-  font-family: RoslindaleBold;
+  font-family: 'RoslindaleBold';
   src: local('RoslindaleBold'), url("./fonts/RoslindaleText-Bold.otf")
     format('opentype');
 }
+@font-face {
+  font-family: 'RoslindaleLight';
+  src: local('RoslindaleDisplay-Light'), url("./fonts/RoslindaleDisplayCondensed-Light.otf")
+    format('opentype');
+}
+
 
 
 code {
