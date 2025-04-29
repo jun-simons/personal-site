@@ -1,4 +1,6 @@
-This is my personal website, a Next.js project developed with Typescript and Tailwind.
+I built this simple site using NextJS, Typescript, and Tailwind.
+
+The homescreen acts as a hidden instrument. I use AudioContext to play pitches, with frequencies computed based on cursor position and musical scale ratios.
 
 ## Running Locally
 Run the development server:
