@@ -1,4 +1,4 @@
-This is a Next.js project developed with Typescript and Tailwind.
+This is my personal website, a Next.js project developed with Typescript and Tailwind.
 
 ## Running Locally
 Run the development server:
