@@ -1,4 +1,4 @@
-import { i } from "framer-motion/client";
+// import { i } from "framer-motion/client";
 import { useEffect, useRef } from "react";
 
 declare global {
@@ -134,7 +134,7 @@ export default function Instrument({ currentMode, pitchModes }: MusicalGridProps
         if (!canvas) return;
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        const updatedNumLinesX = Math.ceil(canvas.width / lineSpacing);
+        // const updatedNumLinesX = Math.ceil(canvas.width / lineSpacing);
         drawGrid(false);
     }
 

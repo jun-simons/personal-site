@@ -50,7 +50,7 @@ const pitchModes: Record<PitchMode, { baseFrequency: number; frequencyStep?: num
 
 export default function Home() {
   const [currentMode, setCurrentMode] = useState<PitchMode>("pentatonic");
-  const currentModeRef = useRef(currentMode);
+  // const currentModeRef = useRef(currentModse);
 
   const [scope, animate] = useAnimate(); // useAnimate hook for controlling animations
   const [hasScrolled, setHasScrolled] = useState(false); // Tracks if the user has scrolled
@@ -118,7 +118,7 @@ export default function Home() {
       >
         <div className="w-4/5 max-w-[800px] text-center">
           <p className="text-xl text-gray-700 font-mono dark:text-gray-300 mb-6">
-            I'm a junior at RPI studying Computer Science. I currently work at{' '}
+            I'm a junior at RPI studying Computer Science. I currently work at&nbsp;
             <a 
               href="https://www.ll.mit.edu/" 
               target="_blank" 
@@ -130,7 +130,7 @@ export default function Home() {
             as a technical assistant doing Software Engineering, Algorithm Design, and AI/ML Work.
           </p>
           <p className="text-xl text-gray-700 font-mono dark:text-gray-300 mb-6">
-              I previously did a co-op at{' '}
+              I previously did a co-op at&nbsp;
             <a 
               href="https://innovativemedicine.jnj.com/" 
               target="_blank" 
@@ -159,7 +159,7 @@ export default function Home() {
       >
         <Link
           href="/blog"
-          className="text-lg font-mono text-gray-600 hover:underline decoration-2 underline-offset-4 hover:decoration-green-600 hover:text-green-600 dark:text-gray-300 dark:hover:text-gray-100"
+          className="text-lg font-mono text-gray-600 hover:underline decoration-2 underline-offset-4 hover:decoration-green-700 hover:text-green-700 dark:text-gray-300 dark:hover:text-gray-100"
         >
           Explore My Projects →
         </Link>

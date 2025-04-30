@@ -64,13 +64,13 @@ const Navbar = ({ visible }: NavbarProps) => {
         <div className="space-x-6 text-xl">
           <Link
             href="/blog"
-            className="pl-2 hover:underline hover:decoration-green-600 hover:text-green-600"
+            className="pl-2 hover:underline hover:decoration-green-700 hover:text-green-700"
           >
             projects
           </Link>
           <Link
             href="/contact"
-            className="hover:underline hover:decoration-yellow-600 hover:text-yellow-600"
+            className="hover:underline hover:decoration-orange-500 hover:text-orange-500"
           >
             contact
           </Link>

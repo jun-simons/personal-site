@@ -1,7 +1,6 @@
 // app/blog/[slug]/page.tsx
 import { getAllPostMeta, getPost } from '@/app/lib/posts'
 import { marked } from 'marked'
-import Tag from '@/components/tag'
 
 marked.setOptions({
   gfm:     true,

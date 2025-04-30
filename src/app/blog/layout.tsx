@@ -1,8 +1,6 @@
 // app/blog/layout.tsx
 'use client'
 
-import { useState, useEffect, ReactNode } from 'react'
-
 import Navbar from '@/components/navbar'
 
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
