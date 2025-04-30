@@ -40,7 +40,6 @@ const bluesExtendedScale = [
   ...bluesBaseScale.map((n) => n * 8), // Fourth octave
 ];
 
-
 type PitchMode = "pentatonic" | "just_c" | "blues";
 
 const pitchModes: Record<PitchMode, { baseFrequency: number; frequencyStep?: number; scale?: number[] }> = {
@@ -59,7 +58,7 @@ export default function Home() {
   // Trigger initial animation on page load
   useEffect(() => {
     async function initialAnimation() {
-      await animate(scope.current, { opacity: 1, y: -100 }, { delay: 0.5, duration: 0.7, ease: 'easeOut' });
+      await animate(scope.current, { opacity: 1, y: -50 }, { delay: 0.5, duration: 0.7, ease: 'easeOut' });
     }
 
     initialAnimation();
@@ -104,7 +103,7 @@ export default function Home() {
       <motion.h1
         ref={scope} // Connect to useAnimate
         initial={{ opacity: 0, y: -150 }} // Initial state
-        className="text-[6rem] font-display tracking-tighter text-center z-20"
+        className="text-[6rem] font-display tracking-widest text-center z-20"
       >
         Jun Simons
       </motion.h1>

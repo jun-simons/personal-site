@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
 
     <html lang="en">
-      <body className="bg-background text-foreground">
+      <body className="bg-background h-full overflow-y-auto text-foreground">
         {/* <Navbar /> */}
         <main>{children}</main>
       </body>
